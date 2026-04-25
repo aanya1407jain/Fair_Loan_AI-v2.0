@@ -29,20 +29,17 @@ export default function Dashboard({ onRunDemo, loading }) {
                 <>▶ Run Demo Audit</>
               )}
             </button>
-            <div className="hero-action-note">
-              5,000 synthetic Indian applicants · 3 protected attributes · Full PDF export
-            </div>
           </div>
-        </div>
 
-        {/* Floating stats */}
-        <div className="hero-stats">
-          {STATS.map(s => (
-            <div key={s.label} className="hero-stat">
-              <div className="stat-val">{s.val}</div>
-              <div className="stat-label">{s.label}</div>
-            </div>
-          ))}
+          {/* Stats — single horizontal row below the button */}
+          <div className="hero-stats">
+            {STATS.map(s => (
+              <div key={s.label} className="hero-stat">
+                <div className="stat-val">{s.val}</div>
+                <div className="stat-label">{s.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -116,11 +113,11 @@ export default function Dashboard({ onRunDemo, loading }) {
 
 const STATS = [
   { val: "80%", label: "4/5 Rule Threshold" },
-  { val: "3", label: "Protected Attributes" },
+  { val: "3",   label: "Protected Attributes" },
   { val: "5K+", label: "Synthetic Samples" },
   { val: "RBI", label: "2023 Aligned" },
   { val: "PDF", label: "Compliance Export" },
-  { val: "AI", label: "Auto-Mitigation" },
+  { val: "AI",  label: "Auto-Mitigation" },
 ];
 
 const FEATURES = [
@@ -144,8 +141,8 @@ const STEPS = [
 ];
 
 const TERMS = [
-  { abbr: "DI", term: "Disparate Impact", def: "Ratio of approval rates between disadvantaged and privileged groups. Tests if protected attributes cause significantly lower outcomes.", threshold: "≥ 0.80 (4/5ths rule)" },
-  { abbr: "EO", term: "Equalized Odds", def: "Equal true positive AND false positive rates across demographic groups. Stricter than Equal Opportunity.", threshold: "|diff| ≤ 0.10" },
-  { abbr: "DP", term: "Demographic Parity", def: "Overall approval rates should be similar across all demographic groups, regardless of actual creditworthiness.", threshold: "|diff| ≤ 0.05" },
-  { abbr: "PV", term: "Proxy Variable Detection", def: "Identifies when seemingly neutral features (Zip Code, Monthly Income) act as stand-ins for protected attributes like caste or religion.", threshold: "SHAP correlation < 0.15" },
+  { abbr: "DI", term: "Disparate Impact",       def: "Ratio of approval rates between disadvantaged and privileged groups. Tests if protected attributes cause significantly lower outcomes.", threshold: "≥ 0.80 (4/5ths rule)" },
+  { abbr: "EO", term: "Equalized Odds",          def: "Equal true positive AND false positive rates across demographic groups. Stricter than Equal Opportunity.", threshold: "|diff| ≤ 0.10" },
+  { abbr: "DP", term: "Demographic Parity",      def: "Overall approval rates should be similar across all demographic groups, regardless of actual creditworthiness.", threshold: "|diff| ≤ 0.05" },
+  { abbr: "PV", term: "Proxy Variable Detection",def: "Identifies when seemingly neutral features (Zip Code, Monthly Income) act as stand-ins for protected attributes like caste or religion.", threshold: "SHAP correlation < 0.15" },
 ];
