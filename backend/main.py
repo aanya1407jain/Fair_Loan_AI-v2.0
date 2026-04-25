@@ -10,7 +10,7 @@ from fastapi.responses import FileResponse
 import uvicorn
 import json
 import os
-import pickle
+import pickle  # Python 3.11 has pickle built-in — pickle5 is NOT needed
 import tempfile
 import hashlib
 from pathlib import Path
@@ -26,6 +26,7 @@ from model_integrity import compute_integrity_score
 from shap_engine import compute_shap_values
 import numpy as np
 
+
 class NpEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, np.integer):
@@ -37,6 +38,7 @@ class NpEncoder(json.JSONEncoder):
         if isinstance(obj, np.ndarray):
             return obj.tolist()
         return super(NpEncoder, self).default(obj)
+
 
 app = FastAPI(
     title="Fair Loan AI — Bias Audit Engine",
@@ -66,18 +68,6 @@ Advanced credit scoring fairness auditor aligned with **RBI Fair Lending Guideli
     ]
 )
 
-
-# 1. Gather all possible origins
-raw_frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173")
-frontend_url = raw_frontend_url.rstrip("/")
-
-origins = [
-    frontend_url,
-    "http://localhost:5173",
-    "http://localhost:3000",
-    "http://127.0.0.1:5173",
-]
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -105,11 +95,8 @@ def demo_audit():
     integrity = compute_integrity_score(df, None, None)
     report["model_integrity"] = integrity
     _audit_cache[report["audit_id"]] = {"report": report, "df": df}
-    
-    # UPDATE THIS LINE:
     with open(REPORTS_DIR / f"{report['audit_id']}.json", "w") as f:
-        json.dump(report, f, indent=2, cls=NpEncoder) # Added cls=NpEncoder
-        
+        json.dump(report, f, indent=2, cls=NpEncoder)
     return report
 
 
@@ -136,7 +123,7 @@ async def upload_model(file: UploadFile = File(...)):
     report["model_integrity"] = integrity
     _audit_cache[report["audit_id"]] = {"report": report, "df": df, "model": model}
     with open(REPORTS_DIR / f"{report['audit_id']}.json", "w") as f:
-        json.dump(report, f, indent=2)
+        json.dump(report, f, indent=2, cls=NpEncoder)
     return report
 
 
