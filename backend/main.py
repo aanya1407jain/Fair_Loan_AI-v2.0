@@ -97,15 +97,18 @@ def root():
     return {"message": "Fair Loan AI Audit Engine v2.0", "version": "2.0.0", "docs": "/docs"}
 
 
-@app.get("/api/demo-audit", tags=["audit"], summary="Run demo bias audit")
+@app.get("/api/demo-audit", tags=["audit"])
 def demo_audit():
     df = generate_synthetic_data(n_samples=5000, seed=42)
     report = run_audit(df, model_type="demo")
     integrity = compute_integrity_score(df, None, None)
     report["model_integrity"] = integrity
     _audit_cache[report["audit_id"]] = {"report": report, "df": df}
+    
+    # UPDATE THIS LINE:
     with open(REPORTS_DIR / f"{report['audit_id']}.json", "w") as f:
-        json.dump(report, f, indent=2)
+        json.dump(report, f, indent=2, cls=NpEncoder) # Added cls=NpEncoder
+        
     return report
 
 
