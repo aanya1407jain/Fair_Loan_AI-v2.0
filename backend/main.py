@@ -66,14 +66,15 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins, 
-    allow_credentials=True,
+    allow_origins=["*"], 
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-REPORTS_DIR = Path("./reports")
-REPORTS_DIR.mkdir(exist_ok=True)
+BASE_DIR = Path(__file__).resolve().parent
+REPORTS_DIR = BASE_DIR / "reports"
+REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 _audit_cache: Dict[str, Any] = {}
 
 
