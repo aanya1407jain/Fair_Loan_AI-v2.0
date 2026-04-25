@@ -1,0 +1,119 @@
+.heatmap-container {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.heatmap-title {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 24px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--accent);
+}
+
+.heatmap-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.attr-section { margin-bottom: 28px; }
+.attr-section:last-child { margin-bottom: 0; }
+
+.attr-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.attr-name {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text);
+}
+
+.severity-badge {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 700;
+}
+
+.heat-grid {
+  display: grid;
+  grid-template-columns: 120px 1fr 100px 100px 100px;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.heat-col-header {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-family: var(--font-mono);
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.heat-row-label {
+  color: var(--text);
+  font-size: 13px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface2);
+  border-radius: 4px;
+}
+
+.priv-tag {
+  font-size: 9px;
+  color: var(--text-muted);
+  background: var(--border);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+.heat-cell {
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.02);
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.cell-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.cell-bar {
+  height: 6px;
+  border-radius: 3px;
+  transition: width 0.5s;
+}
+
+.flag-badge {
+  font-size: 11px;
+  color: #ff6b6b;
+  background: rgba(255,107,107,0.12);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.ok-badge {
+  font-size: 11px;
+  color: #06d6a0;
+  background: rgba(6,214,160,0.12);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
