@@ -1,0 +1,56 @@
+{
+  "audit_id": "723F5F81",
+  "timestamp": "2026-04-25T16:05:51.469340+00:00",
+  "model_type": "demo",
+  "dataset": {
+    "total_samples": 5000,
+    "source": "synthetic_indian_demographics",
+    "features": [
+      "cibil_score",
+      "monthly_income",
+      "loan_amount",
+      "debt_to_income_ratio",
+      "existing_loans",
+      "credit_history_years",
+      "num_late_payments"
+    ],
+    "protected_attributes": [
+      "gender",
+      "religion",
+      "city_tier"
+    ],
+    "city_distribution": {
+      "1": 1415,
+      "2": 2103,
+      "3": 1482
+    },
+    "gender_distribution": {
+      "Male": 2652,
+      "Female": 2296,
+      "Other": 52
+    }
+  },
+  "overall_metrics": {
+    "accuracy": 0.8708,
+    "f1_score": 0.4431,
+    "roc_auc": 0.9908,
+    "total_samples": 5000,
+    "total_approved": 257,
+    "total_rejected": 4743,
+    "approval_rate": 0.0514
+  },
+  "bias_analysis": {
+    "gender": {
+      "severity": "CRITICAL",
+      "disparate_impact": {
+        "Female": {
+          "approval_rate": 0.0309,
+          "di_ratio": 0.4433,
+          "count": 2296,
+          "flagged": true
+        },
+        "Male": {
+          "approval_rate": 0.0698,
+          "di_ratio": 1.0,
+          "count": 2652,
+          "flagged": 
