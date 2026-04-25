@@ -24,6 +24,19 @@ from counterfactual_engine import run_counterfactual
 from adversarial_engine import run_adversarial_check
 from model_integrity import compute_integrity_score
 from shap_engine import compute_shap_values
+import numpy as np
+
+class NpEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.integer):
+            return int(obj)
+        if isinstance(obj, np.floating):
+            return float(obj)
+        if isinstance(obj, np.bool_):
+            return bool(obj)
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return super(NpEncoder, self).default(obj)
 
 app = FastAPI(
     title="Fair Loan AI — Bias Audit Engine",
@@ -52,6 +65,7 @@ Advanced credit scoring fairness auditor aligned with **RBI Fair Lending Guideli
         {"name": "data", "description": "Synthetic data generation"},
     ]
 )
+
 
 # 1. Gather all possible origins
 raw_frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173")
