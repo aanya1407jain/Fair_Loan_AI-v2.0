@@ -53,10 +53,21 @@ Advanced credit scoring fairness auditor aligned with **RBI Fair Lending Guideli
     ]
 )
 
-frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173").rstrip("/")
+# 1. Gather all possible origins
+raw_frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173")
+frontend_url = raw_frontend_url.rstrip("/")
+
+origins = [
+    frontend_url,
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "http://127.0.0.1:5173",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[frontend_url, "http://localhost:5173", "http://localhost:3000", "*"],
+    allow_origins=origins, 
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
