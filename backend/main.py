@@ -25,6 +25,7 @@ from adversarial_engine import run_adversarial_check
 from model_integrity import compute_integrity_score
 from shap_engine import compute_shap_values
 import numpy as np
+from gemini_engine import generate_gemini_insights, generate_counterfactual_explanation
 
 
 # ── Numpy-safe JSON encoder ───────────────────────────────────────────────────
@@ -344,7 +345,34 @@ def manual_review_queue(audit_id: str, limit: int = 10):
             "review_priority":     "HIGH" if row["gender"] == "Female" or row["city_tier"] == 3 else "MEDIUM",
         })
     return np_safe_response({"queue": cases, "total": len(cases)})
+@app.get("/api/gemini-insights/{audit_id}", tags=["explain"],
+         summary="Gemini AI-powered regulatory narrative & recommendations")
+def gemini_insights(audit_id: str):
+    """
+    Uses Google Gemini 1.5 Flash to generate:
+    - Formal RBI regulatory narrative
+    - Prioritized actionable recommendations  
+    - Applicant-friendly plain-language explanation
+    """
+    if audit_id not in _audit_cache:
+        # Regenerate demo audit if not cached
+        df = generate_synthetic_data(n_samples=5000, seed=42)
+        report = run_audit(df, model_type="demo")
+        _audit_cache[audit_id] = {"report": report, "df": df}
+
+    report = _audit_cache[audit_id]["report"]
+    result = generate_gemini_insights(report)
+    return np_safe_response(result)
 
 
+@app.post("/api/gemini-counterfactual-explain", tags=["explain"],
+          summary="Gemini explains a counterfactual what-if result")
+def gemini_counterfactual_explain(payload: dict = Body(...)):
+    """
+    Pass the output of /api/counterfactual directly to this endpoint.
+    Gemini returns a plain-English compliance explanation.
+    """
+    explanation = generate_counterfactual_explanation(payload)
+    return np_safe_response({"explanation": explanation, "powered_by": "Google Gemini AI"})
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
